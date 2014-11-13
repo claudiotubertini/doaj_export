@@ -2,8 +2,9 @@
 /*
 *Plugin Name: Bibliographic Metabox
 *Plugin URI:
-*Description: Useful to insert metadata to posts
-*Version: 1.2
+*Description: Useful to insert metadata to posts. This metada will then be used both to produce html meta tag and for 
+*exporting data to DOAJ
+*Version: 1.0
 *Author: Claudio Tubertini
 *Author URI: http://open-word.com
 *License: GPLv2
@@ -18,8 +19,7 @@ function call_Clueb_pblsh_bib() {
 }
  
 class Clueb_pblsh_bib {
-	// const  CMETA = array ("_citation_title", "_citation_authors", "_citation_journal_title", "_citation_publisher", "_citation_issue",
-	// 	"_citation_volume", "_citation_doi", "_citation_firstpage", "_citation_lastpage", "_citation_date", "_citation_abstract_html_url", "_citation_abstract_pdf_url"  );
+	
       public $cmeta;
       public function __construct() {
         $this->cmeta = array ("_citation_keywords", "_citation_abstract", "_citation_title", "_citation_authors", "_citation_journal_title", "_citation_publisher", "_citation_issue",

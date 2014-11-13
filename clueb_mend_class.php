@@ -2,12 +2,7 @@
 /*
 *Plugin Name: Citation in meta tag
 *Plugin URI:
-*Description: A class to upload metadata as HTML tags
-*Version: 1.2
-*Author: Claudio Tubertini
-*Author URI: http://open-word.com
-*License: GPLv2
-*mendeley example
+*Description: 'A class to upload metadata as HTML tags and in the meanwhile add a button to upload a citation to your Mendeley Library. Example of meta tag produced
 *<meta name="citation_title" content="Global and local 
 *fMRI signals driven by neurons defined optogenetically by type and wiring.">
 *<meta name="citation_authors" content="Lee, Jin Hyung; Durand, Remy; Gradinaru, Viviana; Zhang, Feng; Goshen, Inbal; Kim, Dae-Shik; Fenno, Lief E; Ramakrishnan, Charu; Deisseroth, Karl">
@@ -18,36 +13,15 @@
 *<meta name="citation_doi" content="10.1038/nature09108">
 *<meta name="citation_firstpage" content="788">
 *<meta name="citation_lastpage" content="792">
-*<meta name="citation_date" content="2010">
-*<meta name="citation_abstract_html_url" content="http://www.mendeley.com/research/global-local-fmri-signals-driven-neurons-defined-optogenetically-type-wiring-1/">
-*<meta name="citation_abstract_pdf_url" content="http://www.mendeley.com/download/public/3323481/3948897002/a485b448a8aa67f6319355609acbd9f55442ed1d/dl.pdf">
+*<meta name="citation_date" content="2010">'
+* The way in which the authors are entered is the same as in the associated plugin "Metadata Class", that is authors name and his institution are separeted by a comma
+* each author is separated from others by a semicolon. Important! Use commas and semicolons only as indicated.
+*Version: 1.0
+*Author: Claudio Tubertini
+*Author URI: http://open-word.com
+*License: GPLv2
 */
 
-// // function to download file ================
-// function xxx(){
-
-// ob_start();
-// require_once 'includes/db.php';
-// require_once 'includes/init.php';
-
-
-//      $file = "logs/".$_SESSION['username'].".txt";
-
-// if (file_exists($file)) {
-//     header('Content-Description: File Transfer');
-//     header('Content-Type: application/octet-stream');
-//     header('Content-Disposition: attachment; filename='.basename($file));
-//     header('Content-Transfer-Encoding: binary');
-//     header('Expires: 0');
-//     header('Cache-Control: must-revalidate');
-//     header('Pragma: public');
-//     header('Content-Length: ' . filesize($file));
-//     ob_clean();
-//     flush();
-//     readfile($file);
-//     exit;
-// }
-// }============
 
 
 class Clueb_Mend {
@@ -63,7 +37,7 @@ function __construct() {
 function meta_page_header_output () { 
 	//$postid = get_the_ID();
 	$final_authors = array ();
-	$clueb_stored_meta = get_post_meta( get_the_ID());
+	$clueb_stored_meta = get_post_meta( get_the_ID()); // retrieve all metadata inserted in meta box
 	if ( isset ( $clueb_stored_meta['_citation_authors'] ) ){
 	$authors = explode(";", $clueb_stored_meta['_citation_authors'][0]);
 		foreach ($authors as $author){
@@ -74,20 +48,10 @@ function meta_page_header_output () {
 		 else {
 		 	$final_authors[$ret[0]]= '';
 		 }
-		}
+		} //creates an array with authors' name => authors' institution
 	}
 	if ( isset ( $clueb_stored_meta['_citation_title'] ) ) echo ("<meta name='citation_title' content='". $clueb_stored_meta['_citation_title'][0]. "'/>");
-	// echo("<meta name='citation_title' content='");
-	// echo($clueb_stored_meta['_citation_title'][0]);
-	//echo($clueb_stored_meta['_citation_title'][1]);
-	//echo(get_post_meta( $postid, '_citation_title', true ));
-	// echo("'/>");
-	//citation_authors
-	// $authors = explode(",", $clueb_stored_meta['_citation_authors'][0]);
-	//  for ($i = 0; $i < count($authors); $i++) {
-	//  	preg_match('/[\D]+/', $authors[$i], $matches);
-	//  	$authors[$i] = $matches[0];
-	//  }
+	
 	if ( isset ( $clueb_stored_meta['_citation_authors'] ) )
 	echo("<meta name='citation_authors' content='" . implode(',', array_keys($final_authors)). "'/>");
 	if ( isset ( $clueb_stored_meta['_citation_journal_title'] ) )
@@ -137,14 +101,6 @@ function citation_page_output () {
 
 }
 
-// function authors_names() {
-// 	$authors = explode(",", get_post_meta(  $post->ID, '_citation_authors', true ));
-// 	 foreach ($authors as $author) {
-// 	 	preg_match('/[\D]+/', $author, $matches);
-// 	 	$author = $matches[0];
-// 	 }
-// 	 return implode(",", $authors);
-// }
 
 $my_metadata = new Clueb_Mend ();
 ?>

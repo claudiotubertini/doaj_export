@@ -14,11 +14,8 @@
  * Version: 0.2.1
  * Author URI: 
  */
-//$string = home_url( '/' );
-//$xml = new SimpleXMLElement($string);
 
 
-//add_action( 'init', 'XML_export_final');
 add_action('template_redirect','XML_export' );
 
 function XML_export() {
@@ -26,12 +23,12 @@ function XML_export() {
      return;
    }
   global $wpdb;
-  $posts = $wpdb->get_results( "SELECT ID, post_title, post_modified_gmt
+  $posts = $wpdb->get_results( "SELECT ID, post_title, post_date
     FROM $wpdb->posts
     WHERE post_status = 'publish'
     AND post_password = ''
     AND NOT post_type = 'wpcf7_contact_form'
-    ORDER BY post_type DESC, post_modified DESC
+    ORDER BY post_type DESC, post_date DESC
     LIMIT 50" );
 
   //header('Content-Disposition: attachment; filename="downloaded.xml"');
@@ -54,7 +51,7 @@ function XML_export() {
       $xml .= '<publisher>CLUEB</publisher>';
     $xml .= '<journalTitle>'.get_post_meta( $post->ID, '_citation_journal_title', true ).'</journalTitle>';
     $xml .= '<issn>'.'2283-7116'.'</issn>';
-    $xml .= '<publicationDate>'.get_post_meta( $post->ID, '_citation_date', true ).'</publicationDate>';
+    $xml .= '<publicationDate>'.mysql2date('Y-m-d', $post->post_date).'</publicationDate>';
     $xml .= '<volume>'.get_post_meta( $post->ID, '_citation_volume', true ).'</volume>';
     $xml .= '<issue>'.get_post_meta( $post->ID, '_citation_issue', true ).'</issue>';
     $xml .= '<startPage>'.get_post_meta( $post->ID, '_citation_firstpage', true ).'</startPage>';
@@ -79,7 +76,7 @@ function XML_export() {
      else {
       $final_authors[$ret[0]]= '';
      }
-     //$final_authors[$ret[0]]= $ret[1];
+     //creates an associative array with authors' name => authors' institutions
     }
   
       $xmlau = '';
@@ -124,16 +121,10 @@ function XML_export() {
 
   $xml .= '</records>';
   echo ( "$xml" );
-  
-    
     
   exit();
 
   }
-
-// function XML_export_final(){
-//   add_action( 'template_redirect', 'XML_export' );
-// }
 
 
 ?>
