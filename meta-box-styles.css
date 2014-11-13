@@ -1,0 +1,35 @@
+#clueb_pblsh_meta{
+    overflow: hidden;
+    padding-bottom: 1em;
+
+}
+ 
+#clueb_pblsh_meta p{
+    clear: both;
+}
+ 
+.clueb_pblsh-title{
+    display: block;
+    float: left;
+    width: 200px;
+}
+ 
+.clueb_pblsh-content{
+    float: left;
+    padding-bottom: 0.5em;
+    
+    
+}
+ 
+.clueb_pblsh-content label{
+    display: block;
+    /*line-height: 1.75em;*/
+    padding-right: 0.5em;
+    
+}
+input[type=text] {
+    width: 250px;
+    display: block;
+    margin-bottom: 10px;
+    float: left;
+}
